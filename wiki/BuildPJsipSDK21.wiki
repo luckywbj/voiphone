@@ -58,6 +58,13 @@ Add this to config.h file in pjmedia/include/pjmedia:
 #define PJMEDIA_SOUND_IPOD_SOUND            4
 }}}
 
+Copy a header that is missing in the device includes
+
+{{{
+cp /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator2.1.sdk/usr/include/netinet/in_systm.h \
+/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.1.sdk/usr/include/netinet/in_systm.h
+}}}
+
 Edit os-auto.mak.in pjmedia/build and add
 
 {{{
