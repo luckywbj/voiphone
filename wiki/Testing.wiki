@@ -27,4 +27,4 @@ This details how to test pjsua on your iPhone running FW 2.1
 
 --add-buddy sip:sipuraspa:5061
 }}}
-  # run ./pjsua --config-file=iphone.cfg from the command line and *M* ake some test calls 
+  # run ./pjsua-arm-apple-darwin9 --config-file=iphone.cfg from the command line and *M* ake some test calls 
