@@ -1,17 +1,15 @@
-#summary One-sentence summary of this page.
+#summary This page describes how to build pjsip-1.0 on the iPhone SDK 2.1
 #labels Featured
 
 = Introduction =
 
 This is to help one build pjsip 1.0 on OS X 10.5.5 with the iPhone SDK 2.1
 
-
 = Details =
 
 cc-gcc.mak
 
 {{{
-
 export RANLIB = $(CROSS_COMPILE)ranlib -o
 }}}
 
@@ -22,5 +20,26 @@ $(LIB): $(OBJDIRS) $(OBJS) $($(APP)_EXTRA_DEP)
         if test ! -d $(LIBDIR); then $(subst @@,$(subst /,$(HOST_PSEP),$(LIBDIR)),$(HOST_MKDIR)); fi
         $(AR) $(LIB) $(OBJS)
         $(RANLIB) $(LIB) - $(OBJS)
+}}}
 
+comment out the media tests
+
+pjmedia/build/makefile 109:
+{{{
+TARGETS := pjmedia pjmedia-codec pjsdp #pjmedia-test
+}}}
+
+these options seem to work
+
+{{{
+./aconfigure --host=arm-apple-darwin9 --disable-ssl --disable-speex-aec \
+--disable-speex-codec --disable-l16-codec --disable-g722-codec \
+--disable-ilbc-codec CFLAGS="-arch armv6 -pipe -O0 -isysroot \ /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.1.sdk \
+-I/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.1.sdk/usr/include/gcc/darwin/4.0" \
+LDFLAGS="-isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.1.sdk \
+-L/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/IphoneOS2.1.sdk/usr/lib" \
+CPP=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/arm-apple-darwin9-cpp \
+AR=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/arm-apple-darwin9-ar \
+RANLIB=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/arm-apple-darwin9-ranlib \
+CC=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/arm-apple-darwin9-gcc
 }}}
