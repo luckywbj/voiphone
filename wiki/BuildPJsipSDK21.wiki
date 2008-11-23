@@ -3,7 +3,7 @@
 
 = Introduction =
 
-This is to help one build pjsip 1.0 on OS X 10.5.5 with the iPhone SDK 2.1
+This is to help one build pjsip 1.0 on OS X 10.5.5 with the iPhone SDK 2.1 using the sound code from the siphon project.
 
 = Details =
 
@@ -25,19 +25,47 @@ ln -s ld arm-apple-darwin9-ld
 ln -s ranlib arm-apple-darwin9-ranlib
 }}}
 
-cc-gcc.mak
+edit aconfigure.ac and add this at line 398:
+
+{{{
+arm-apple-darwin*)
+        LIBS="$LIBS -framework CoreAudio -framework CoreFoundation -framework AudioToolbox"
+        ac_pjmedia_snd=ipod
+        AC_MSG_RESULT([Checking sound device backend... AudioQueue])
+        ;;
+}}}
+
+edit build/cc-gcc.mak
 
 {{{
 export RANLIB = $(CROSS_COMPILE)ranlib -o
 }}}
 
-rules.mak
+edit the following build/rules.mak
 
 {{{
 $(LIB): $(OBJDIRS) $(OBJS) $($(APP)_EXTRA_DEP)
         if test ! -d $(LIBDIR); then $(subst @@,$(subst /,$(HOST_PSEP),$(LIBDIR)),$(HOST_MKDIR)); fi
         $(AR) $(LIB) $(OBJS)
         $(RANLIB) $(LIB) - $(OBJS)
+}}}
+
+add this to config.h file in pjmedia/include/pjmedia:
+
+{{{
+/** Constant for AudioQueue sound backend. */
+#define PJMEDIA_SOUND_IPOD_SOUND            4
+}}}
+
+edit os-auto.mak.in pjmedia/build and add
+{{{
+#
+# iPod/iPhone
+#
+ifeq ($(AC_PJMEDIA_SND),ipod)
+export SOUND_OBJS = ipodsound.o
+export CFLAGS += -DPJMEDIA_SOUND_IMPLEMENTATION=PJMEDIA_SOUND_IPOD_SOUND
+endif
 }}}
 
 comment out the media tests
