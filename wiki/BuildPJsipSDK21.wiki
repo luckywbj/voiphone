@@ -7,13 +7,14 @@ This is to help one build pjsip 1.0 on OS X 10.5.5 with the iPhone SDK 2.1 using
 
 = Details =
 
-set the path to include the arm tools in the SDK
+Put the ipodsound.c file file into pjmedia/source/pjmedia directory. You can get a copy from the downloads section of this site.
 
+Set the path to include the arm tools in the SDK
 {{{
 export PATH=$PATH:/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/
 }}}
 
-symbolic links for gcc like cross compile
+Setup symbolic links for gcc like cross compile
 
 {{{
 cd /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/
@@ -25,7 +26,7 @@ ln -s ld arm-apple-darwin9-ld
 ln -s ranlib arm-apple-darwin9-ranlib
 }}}
 
-edit aconfigure.ac and add this at line 398:
+Edit aconfigure.ac and add this at line 398:
 
 {{{
 arm-apple-darwin*)
@@ -35,13 +36,13 @@ arm-apple-darwin*)
         ;;
 }}}
 
-edit build/cc-gcc.mak
+Edit build/cc-gcc.mak
 
 {{{
 export RANLIB = $(CROSS_COMPILE)ranlib -o
 }}}
 
-edit the following build/rules.mak
+Edit the following build/rules.mak
 
 {{{
 $(LIB): $(OBJDIRS) $(OBJS) $($(APP)_EXTRA_DEP)
@@ -50,14 +51,15 @@ $(LIB): $(OBJDIRS) $(OBJS) $($(APP)_EXTRA_DEP)
         $(RANLIB) $(LIB) - $(OBJS)
 }}}
 
-add this to config.h file in pjmedia/include/pjmedia:
+Add this to config.h file in pjmedia/include/pjmedia:
 
 {{{
 /** Constant for AudioQueue sound backend. */
 #define PJMEDIA_SOUND_IPOD_SOUND            4
 }}}
 
-edit os-auto.mak.in pjmedia/build and add
+Edit os-auto.mak.in pjmedia/build and add
+
 {{{
 #
 # iPod/iPhone
@@ -68,14 +70,13 @@ export CFLAGS += -DPJMEDIA_SOUND_IMPLEMENTATION=PJMEDIA_SOUND_IPOD_SOUND
 endif
 }}}
 
-comment out the media tests
+Comment out the media tests build target in pjmedia/build/makefile 109:
 
-pjmedia/build/makefile 109:
 {{{
 TARGETS := pjmedia pjmedia-codec pjsdp #pjmedia-test
 }}}
 
-these options seem to work
+aconfigure with these options seem to work
 
 {{{
 ./aconfigure --host=arm-apple-darwin9 --disable-ssl --disable-speex-aec \
