@@ -76,6 +76,12 @@ Comment out the media tests build target in pjmedia/build/makefile 109:
 TARGETS := pjmedia pjmedia-codec pjsdp #pjmedia-test
 }}}
 
+Generate configuration script
+
+{{{
+autoconf aconfigure.ac > aconfigure
+}}}
+
 aconfigure with these options seem to work
 
 {{{
