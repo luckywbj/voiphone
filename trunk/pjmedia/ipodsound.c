@@ -40,9 +40,9 @@ static pj_bool_t      thread_registered = PJ_FALSE;
 
 #define BITS_PER_SAMPLE     16
 #define BYTES_PER_SAMPLE    (BITS_PER_SAMPLE/8)
-#define AUDIO_BUFFERS 3
+#define AUDIO_BUFFERS       3
 
-#if 0
+#if 1
 #   define TRACE_(x)    PJ_LOG(1,x)
 #else
 #   define TRACE_(x)
@@ -67,19 +67,19 @@ typedef struct AQStruct
 
 struct pjmedia_snd_stream 
 {
-	pj_pool_t		*pool;
-	pjmedia_dir 		dir;
-	int 			rec_id;
-	int 			play_id;
-	unsigned		clock_rate;
-	unsigned		channel_count;
-	unsigned		samples_per_frame;
-	unsigned		bits_per_sample;
-	
-    pjmedia_snd_rec_cb	rec_cb;
-	pjmedia_snd_play_cb	play_cb;
+    pj_pool_t     *pool;
+    pjmedia_dir   dir;
+    int           rec_id;
+    int           play_id;
+    unsigned      clock_rate;
+    unsigned      channel_count;
+    unsigned      samples_per_frame;
+    unsigned      bits_per_sample;
+  
+    pjmedia_snd_rec_cb    rec_cb;
+    pjmedia_snd_play_cb   play_cb;
     
-	void			*user_data;
+    void      *user_data;
     
     AQStruct    *play_strm;      /**< Playback stream.       */
     AQStruct    *rec_strm;       /**< Capture stream.        */
@@ -209,8 +209,13 @@ PJ_DEF(pj_status_t) pjmedia_snd_deinit(void)
     return PJ_SUCCESS;
 }
 
+/*
+ * Get device count.
+ */
 PJ_DEF(int) pjmedia_snd_get_dev_count(void)
 {
+    //kAudioQueueProperty_CurrentDevice 
+
     TRACE_((THIS_FILE, "pjmedia_snd_get_dev_count."));
     /* Always return 1 */
     return 1;
@@ -225,43 +230,43 @@ PJ_DEF(const pjmedia_snd_dev_info*) pjmedia_snd_get_dev_info(unsigned index)
 }
 
 PJ_DEF(pj_status_t) pjmedia_snd_open_rec( int index,
-					  unsigned clock_rate,
-					  unsigned channel_count,
-					  unsigned samples_per_frame,
-					  unsigned bits_per_sample,
-					  pjmedia_snd_rec_cb rec_cb,
-					  void *user_data,
-					  pjmedia_snd_stream **p_snd_strm)
+            unsigned clock_rate,
+            unsigned channel_count,
+            unsigned samples_per_frame,
+            unsigned bits_per_sample,
+            pjmedia_snd_rec_cb rec_cb,
+            void *user_data,
+            pjmedia_snd_stream **p_snd_strm)
 {
     return pjmedia_snd_open(index, -2, clock_rate, channel_count,
-    			    samples_per_frame, bits_per_sample,
-    			    rec_cb, NULL, user_data, p_snd_strm);
+              samples_per_frame, bits_per_sample,
+              rec_cb, NULL, user_data, p_snd_strm);
 }
 
 PJ_DEF(pj_status_t) pjmedia_snd_open_player( int index,
-					unsigned clock_rate,
-					unsigned channel_count,
-					unsigned samples_per_frame,
-					unsigned bits_per_sample,
-					pjmedia_snd_play_cb play_cb,
-					void *user_data,
-					pjmedia_snd_stream **p_snd_strm )
+          unsigned clock_rate,
+          unsigned channel_count,
+          unsigned samples_per_frame,
+          unsigned bits_per_sample,
+          pjmedia_snd_play_cb play_cb,
+          void *user_data,
+          pjmedia_snd_stream **p_snd_strm )
 {
     return pjmedia_snd_open(-2, index, clock_rate, channel_count,
-    			    samples_per_frame, bits_per_sample,
-    			    NULL, play_cb, user_data, p_snd_strm);
+              samples_per_frame, bits_per_sample,
+              NULL, play_cb, user_data, p_snd_strm);
 }
 
 PJ_DEF(pj_status_t) pjmedia_snd_open( int rec_id,
-				      int play_id,
-				      unsigned clock_rate,
-				      unsigned channel_count,
-				      unsigned samples_per_frame,
-				      unsigned bits_per_sample,
-				      pjmedia_snd_rec_cb rec_cb,
-				      pjmedia_snd_play_cb play_cb,
-				      void *user_data,
-				      pjmedia_snd_stream **p_snd_strm)
+              int play_id,
+              unsigned clock_rate,
+              unsigned channel_count,
+              unsigned samples_per_frame,
+              unsigned bits_per_sample,
+              pjmedia_snd_rec_cb rec_cb,
+              pjmedia_snd_play_cb play_cb,
+              void *user_data,
+              pjmedia_snd_stream **p_snd_strm)
 {
     pj_pool_t *pool;
     pjmedia_snd_stream *snd_strm;
@@ -283,11 +288,11 @@ PJ_DEF(pj_status_t) pjmedia_snd_open( int rec_id,
     if (play_id == -1) play_id = 0;
     
     if (rec_id != -2 && play_id != -2)
-    	snd_strm->dir = PJMEDIA_DIR_CAPTURE_PLAYBACK;
+      snd_strm->dir = PJMEDIA_DIR_CAPTURE_PLAYBACK;
     else if (rec_id != -2)
-    	snd_strm->dir = PJMEDIA_DIR_CAPTURE;
+      snd_strm->dir = PJMEDIA_DIR_CAPTURE;
     else if (play_id != -2)
-    	snd_strm->dir = PJMEDIA_DIR_PLAYBACK;
+      snd_strm->dir = PJMEDIA_DIR_PLAYBACK;
     
     snd_strm->rec_id = rec_id;
     snd_strm->play_id = play_id;
@@ -317,7 +322,7 @@ PJ_DEF(pj_status_t) pjmedia_snd_open( int rec_id,
         // In uncompressed audio, each packet contains exactly one frame.
         aq->mDataFormat.mFramesPerPacket = 1;
 #if STEREO
-	aq->mDataFormat.mBytesPerFrame = aq->mDataFormat.mBytesPerPacket = 
+  aq->mDataFormat.mBytesPerFrame = aq->mDataFormat.mBytesPerPacket = 
             2 * bits_per_sample / 8;
         aq->mDataFormat.mChannelsPerFrame = 2;
 
@@ -327,9 +332,9 @@ PJ_DEF(pj_status_t) pjmedia_snd_open( int rec_id,
                 samples_per_frame * bits_per_sample / 8);
         }
 #else
-	aq->mDataFormat.mBytesPerFrame = aq->mDataFormat.mBytesPerPacket = 
+  aq->mDataFormat.mBytesPerFrame = aq->mDataFormat.mBytesPerPacket = 
             channel_count * bits_per_sample / 8;
-	aq->mDataFormat.mChannelsPerFrame = channel_count;
+  aq->mDataFormat.mChannelsPerFrame = channel_count;
 #endif
       
         aq->mDataFormat.mBitsPerChannel = 16; // FIXME 
@@ -400,8 +405,9 @@ PJ_DEF(pj_status_t) pjmedia_snd_stream_start(pjmedia_snd_stream *stream)
             playAQBufferCallback (stream, aq->queue, aq->mBuffers[i]);
         }
         // FIXME: END
-    
-        status = AudioQueueStart(aq->queue, NULL);         
+        
+        status = AudioQueuePrime(aq->queue, 0, NULL);
+        status = AudioQueueStart(aq->queue, NULL);
         if (status) 
         {
             PJ_LOG(1, (THIS_FILE, 
@@ -455,12 +461,12 @@ PJ_DEF(pj_status_t) pjmedia_snd_stream_start(pjmedia_snd_stream *stream)
         }
         
         UInt32 level = 1;
-        status = AudioQueueSetProperty(aq->queue, 
-            kAudioQueueProperty_EnableLevelMetering, &level, sizeof(level));
+        status = AudioQueueSetProperty(aq->queue, kAudioQueueProperty_EnableLevelMetering, &level, sizeof(level));
+        
         if (status)
         {
-            PJ_LOG(1, (THIS_FILE, "AudioQueueSetProperty err %d", status));
-        }	
+            PJ_LOG(1, (THIS_FILE, "AudioQueueSetParameter err %d", status));
+        }  
 
         TRACE_((THIS_FILE, "pjmedia_snd_stream_start : capture started..."));
     }
@@ -481,7 +487,7 @@ PJ_DEF(pj_status_t) pjmedia_snd_stream_stop(pjmedia_snd_stream *stream)
     {
          PJ_LOG(5,(THIS_FILE, "Stopping playback stream"));
          aq = stream->play_strm;
-         status = AudioQueuePause (aq->queue);
+         status = AudioQueueStop  (aq->queue, true);
          if (status)
             PJ_LOG(1, (THIS_FILE, "Stopping playback stream error %d", status));
     }
@@ -489,7 +495,7 @@ PJ_DEF(pj_status_t) pjmedia_snd_stream_stop(pjmedia_snd_stream *stream)
     {
         PJ_LOG(5,(THIS_FILE, "Stopping capture stream"));
         aq = stream->rec_strm;
-        status = AudioQueuePause (aq->queue);
+        status = AudioQueueStop  (aq->queue, true);
         if (status)
           PJ_LOG(1, (THIS_FILE, "Stopping capture stream error %d", status));
     }
@@ -499,7 +505,7 @@ PJ_DEF(pj_status_t) pjmedia_snd_stream_stop(pjmedia_snd_stream *stream)
 /**
  */
 PJ_DEF(pj_status_t) pjmedia_snd_stream_get_info(pjmedia_snd_stream *strm,
-						pjmedia_snd_stream_info *pi)
+            pjmedia_snd_stream_info *pi)
 {
     PJ_ASSERT_RETURN(strm && pi, PJ_EINVAL);
     TRACE_((THIS_FILE, "pjmedia_snd_stream_get_info."));
@@ -561,16 +567,16 @@ PJ_DEF(pj_status_t) pjmedia_snd_stream_close(pjmedia_snd_stream *stream)
  * Set sound latency.
  */
 PJ_DEF(pj_status_t) pjmedia_snd_set_latency(unsigned input_latency, 
-					    unsigned output_latency)
+              unsigned output_latency)
 {
     snd_input_latency  = (input_latency == 0)? 
-			 PJMEDIA_SND_DEFAULT_REC_LATENCY : input_latency;
+       PJMEDIA_SND_DEFAULT_REC_LATENCY : input_latency;
     snd_output_latency = (output_latency == 0)? 
-			 PJMEDIA_SND_DEFAULT_PLAY_LATENCY : output_latency;
+       PJMEDIA_SND_DEFAULT_PLAY_LATENCY : output_latency;
 
     return PJ_SUCCESS;
 }
 
 
 
-#endif	/* PJMEDIA_SOUND_IMPLEMENTATION */
+#endif  /* PJMEDIA_SOUND_IMPLEMENTATION */
