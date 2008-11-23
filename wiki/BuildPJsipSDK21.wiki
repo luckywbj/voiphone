@@ -7,6 +7,24 @@ This is to help one build pjsip 1.0 on OS X 10.5.5 with the iPhone SDK 2.1
 
 = Details =
 
+set the path to include the arm tools in the SDK
+
+{{{
+export PATH=$PATH:/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/
+}}}
+
+symbolic links for gcc like cross compile
+
+{{{
+cd /Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/
+ln -s ar arm-apple-darwin9-ar
+ln -s cpp arm-apple-darwin9-cpp 
+ln -s arm-apple-darwin9-g++-4.0.1 arm-apple-darwin9-g++
+ln -s arm-apple-darwin9-gcc-4.0.1 arm-apple-darwin9-gcc
+ln -s ld arm-apple-darwin9-ld
+ln -s ranlib arm-apple-darwin9-ranlib
+}}}
+
 cc-gcc.mak
 
 {{{
