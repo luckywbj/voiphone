@@ -1,0 +1,30 @@
+#summary How to test the reference app
+#labels Featured
+
+= Introduction =
+
+This details how to test pjsua on your iPhone running FW 2.1
+
+= Details =
+
+  # copy pjsip-apps/bin/pjsua-arm-apple-darwin9 to your iphone with scp
+  # ssh to the iphone and run ldid -S pjsua-arm-apple-darwin9
+  # create a iphone.cfg file with the following content
+{{{
+--app-log-level=1
+--local-port=5063
+--no-tcp
+
+--dis-codec=iLBC
+
+--clock-rate=8000
+--snd-clock-rate=8000
+--ec-tail=0
+--quality=2
+--no-vad 
+
+--snd-auto-close=0
+
+--add-buddy sip:sipuraspa:5061
+}}}
+  # run ./pjsua --config iphone.cfg from the command line and *M*ake some test calls 
