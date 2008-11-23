@@ -1,0 +1,26 @@
+#summary One-sentence summary of this page.
+#labels Featured
+
+= Introduction =
+
+This is to help one build pjsip 1.0 on OS X 10.5.5 with the iPhone SDK 2.1
+
+
+= Details =
+
+cc-gcc.mak
+
+{{{
+
+export RANLIB = $(CROSS_COMPILE)ranlib -o
+}}}
+
+rules.mak
+
+{{{
+$(LIB): $(OBJDIRS) $(OBJS) $($(APP)_EXTRA_DEP)
+        if test ! -d $(LIBDIR); then $(subst @@,$(subst /,$(HOST_PSEP),$(LIBDIR)),$(HOST_MKDIR)); fi
+        $(AR) $(LIB) $(OBJS)
+        $(RANLIB) $(LIB) - $(OBJS)
+
+}}}
