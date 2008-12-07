@@ -46,9 +46,9 @@ Edit the following build/rules.mak
 
 {{{
 $(LIB): $(OBJDIRS) $(OBJS) $($(APP)_EXTRA_DEP)
-        if test ! -d $(LIBDIR); then $(subst @@,$(subst /,$(HOST_PSEP),$(LIBDIR)),$(HOST_MKDIR)); fi
-        $(AR) $(LIB) $(OBJS)
-        $(RANLIB) $(LIB) - $(OBJS)
+	if test ! -d $(LIBDIR); then $(subst @@,$(subst /,$(HOST_PSEP),$(LIBDIR)),$(HOST_MKDIR)); fi
+	$(AR) $(LIB) $(OBJS)
+	$(RANLIB) -static $(LIB) $(OBJS)
 }}}
 
 Add this to config.h file in pjmedia/include/pjmedia:
