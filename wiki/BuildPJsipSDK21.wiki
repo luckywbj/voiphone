@@ -1,9 +1,9 @@
-#summary This page describes how to build pjsip-1.0 on the iPhone SDK 2.1
+#summary This page describes how to build pjsip-1.0 on the iPhone SDK 2.x
 #labels Featured
 
 = Introduction =
 
-This is to help one build pjsip 1.0 on OS X 10.5.5 with the iPhone SDK 2.1 using the sound code from the siphon project.
+This is to help one build pjsip 1.0 on OS X 10.5.5 with the iPhone SDK 2.x using the sound code from the [http://code.google.com/p/siphon/ siphon] project.
 
 = Details =
 
