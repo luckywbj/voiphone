@@ -1,10 +1,11 @@
-#summary One-sentence summary of this page.
+#summary Link pjlib in Xcode iPhone 2.2 SDK
 #labels Featured
 
 = Introduction =
 
-This page attempts to describe how to link the pjsip libraries in your own xcode project for the iPhone SDK
+This page attempts to describe how to link the pjsip libraries in your own xcode project for the iPhone SDK.
 
+You will need to adjust the paths to the libraries to suit your directory structure.
 
 = Details =
 
