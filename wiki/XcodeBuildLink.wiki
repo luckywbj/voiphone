@@ -3,6 +3,8 @@
 
 = Introduction =
 
+Build pjproject first using these [http://code.google.com/p/voiphone/wiki/BuildPJsipSDK21 instructions] 
+
 This page attempts to describe how to link the pjsip libraries in your own xcode project for the iPhone SDK.
 
 You will need to adjust the paths to the libraries to suit your directory structure.
