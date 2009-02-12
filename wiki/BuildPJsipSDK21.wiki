@@ -5,6 +5,12 @@
 
 This is to help one build pjsip 1.0 on OS X 10.5.5 with the iPhone SDK 2.x using the sound code from the [http://code.google.com/p/siphon/ siphon] project.
 
+= Note =
+
+To have this work with other versions of the iPhone SDK (maybe) try changing the occurrences of /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS *2.1* .sdk to whichever version you have downloaded.
+
+i.e. /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS *2.2* .sdk
+
 = Details =
 
 Put the ipodsound.c file file into pjmedia/source/pjmedia directory. You can get a copy from the downloads section of this site.
