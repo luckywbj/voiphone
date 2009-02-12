@@ -94,7 +94,8 @@ aconfigure with these options seem to work
 {{{
 ./aconfigure --host=arm-apple-darwin9 --disable-ssl --disable-speex-aec \
 --disable-speex-codec --disable-l16-codec --disable-g722-codec \
---disable-ilbc-codec CFLAGS="-arch armv6 -pipe -O0 -isysroot \ /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.1.sdk \
+--disable-ilbc-codec CFLAGS="-arch armv6 -pipe -O0 -isysroot \
+ /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.1.sdk \
 -I/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.1.sdk/usr/include/gcc/darwin/4.0" \
 LDFLAGS="-isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.1.sdk \
 -L/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/IphoneOS2.1.sdk/usr/lib" \
