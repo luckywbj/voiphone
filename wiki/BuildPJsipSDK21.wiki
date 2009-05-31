@@ -7,6 +7,8 @@ This is to help one build pjsip 1.0 on OS X 10.5.5 with the iPhone SDK 2.x using
 
 = Note =
 
+_*ipodsound.c* does not work with the 3.0 SDK beta. The sound api probably has changes and the source will need to be ported._
+
 To have this work with other versions of the iPhone SDK (maybe) try changing the occurrences of /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS *2.1* .sdk to whichever version you have downloaded.
 
 i.e. /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS *2.2* .sdk
